@@ -98,13 +98,13 @@ function semiRandSpot() {
 
     // Medium: baseline logic
     if (pc > 1) {
-        // Check down horizontal for win
+        // Check down diagonal for win
         if (board[0] + board[4] + board[8] === win) {
             fillSpot(0, 4);
             return;
         }
 
-        // Check up horizontal for win
+        // Check up diagonal for win
         if (board[2] + board[4] + board[6] === win) {
             fillSpot(2, 2);
             return;
@@ -126,13 +126,13 @@ function semiRandSpot() {
             }
         }
 
-        // Check down horizontal for block
+        // Check down diagonal for block
         if (board[0] + board[4] + board[8] === block) {
             fillSpot(0, 4);
             return;
         }
 
-        // Check up horizontal for block
+        // Check up diagonal for block
         if (board[2] + board[4] + board[6] === block) {
             fillSpot(2, 2);
             return;

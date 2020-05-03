@@ -286,7 +286,7 @@ function render() {
         if (winner) {
             if (winner === 2) msgEl.innerHTML = `Tie Game!`;
             else msgEl.innerHTML = `<span style="color: ${playerLookup[winner][1]}">${playerLookup[winner][0]} Wins!`;
-        } else msgEl.innerHTML = `<span style="color: ${playerLookup[turn][1]}">${playerLookup[turn][0]}'S</span>&nbsp;Turn`;
+        } else msgEl.innerHTML = `<span style="color: ${playerLookup[turn][1]}">${playerLookup[turn][0]}'s</span>&nbsp;Turn`;
 
         // Fill board
         spaceEls.forEach((e, i) => {

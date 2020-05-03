@@ -233,10 +233,8 @@ function semiRandSpot() {
                 }
             }
         }
-    }
 
-    // Hard: take corner
-    if (pc > 2) {
+        // Impossible: take corner
         for (let i = 0; i < 9; i += 2) {
             if (!board[i]) {
                 board[i] = turn;

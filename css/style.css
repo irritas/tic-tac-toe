@@ -1,0 +1,44 @@
+*, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+body {
+    height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Permanent Marker', cursive;
+}
+
+#msg {
+    display: hidden;
+}
+
+button {
+    display: block;
+    margin-top: 3vh;
+    width: 150px;
+    text-align: center;
+}
+
+#spaces {
+    display: hidden;
+    grid-template-columns: repeat(3, 10vmin);
+    grid-template-rows: repeat(3, 10vmin);
+    gap: 1vmin;
+    background-color: black;
+    margin: 3vh;
+}
+
+#spaces > div {
+    background-color: white;
+    font-size: 10vh;
+    text-align: center;
+    line-height: 10vmin;
+}
+
+#reset {
+    display: none;
+}

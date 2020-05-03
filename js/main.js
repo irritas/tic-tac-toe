@@ -6,7 +6,7 @@ const playerLookup = {
     "1": ["X", "blue"]
 }
 
-const firstChance = 2;
+const firstChance = 2;  // 1/firstChance odds of computer going first
 
 
 /*----- STATE -----*/
@@ -51,11 +51,15 @@ function init() {
     render();
 }
 
+// Player choose mode
 function startClick(evt) {
     const id = buttonEls.indexOf(evt.target);
     start = 1;
 
+    // Set computer difficulty
     pc = id;
+
+    // Check who goes first
     if (!Math.floor(Math.random() * firstChance)) {
         if (pc > 1) {
             pcTurn();
@@ -65,6 +69,7 @@ function startClick(evt) {
     render();
 }
 
+// Player choose spot
 function playerClick(evt) {
     const id = spaceEls.indexOf(evt.target);
 
@@ -79,6 +84,7 @@ function playerClick(evt) {
     render();
 }
 
+// Caller for computer logic
 function pcTurn() {
     if (!pc) return;
     semiRandSpot();
@@ -86,12 +92,14 @@ function pcTurn() {
     turn *= -1;
 }
 
+// Fill random spot
 function randSpot() {
     const id = Math.floor(Math.random() * 9);
     if (board[id]) randSpot();
     else board[id] = turn;
 }
 
+// Computer logic
 function semiRandSpot() {
     const win = turn * 2;
     const block = turn * -2;
@@ -241,8 +249,9 @@ function semiRandSpot() {
     randSpot();
 }
 
-function fillSpot(start, add) {
-    for (let i = start; i <= start + add * 2; i += add) {
+// Fill last spot in line
+function fillSpot(start, inc) {
+    for (let i = start; i <= start + inc * 2; i += inc) {
         if (!board[i]) {
             board[i] = turn;
             return;

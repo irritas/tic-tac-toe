@@ -26,6 +26,7 @@ const msgEl = document.getElementById("msg");
 const reset = document.getElementById("reset");
 const buttonEls = [...document.querySelectorAll("#buttons > button")];
 const buttons = document.getElementById("buttons");
+const gameBlock = document.getElementById("game");
 
 
 /*----- LISTENERS -----*/
@@ -275,17 +276,17 @@ function render() {
         // Hide start buttons
         buttons.style.display = "none";
 
-        // Display prompt
-        msgEl.style.display = "flex";
+        // Display game
+        game.style.display = "block";
 
         // Display board
         spaces.style.display = "grid";
 
         // Display player turn or winner
         if (winner) {
-            if (winner === 2) msgEl.innerHTML = `TIE GAME!`;
-            else msgEl.innerHTML = `<span style="color: ${playerLookup[winner][1]}">${playerLookup[winner][0]} WINS!`;
-        } else msgEl.innerHTML = `<span style="color: ${playerLookup[turn][1]}">${playerLookup[turn][0]}'S</span>&nbsp;TURN`;
+            if (winner === 2) msgEl.innerHTML = `Tie Game!`;
+            else msgEl.innerHTML = `<span style="color: ${playerLookup[winner][1]}">${playerLookup[winner][0]} Wins!`;
+        } else msgEl.innerHTML = `<span style="color: ${playerLookup[turn][1]}">${playerLookup[turn][0]}'S</span>&nbsp;Turn`;
 
         // Fill board
         spaceEls.forEach((e, i) => {
@@ -297,7 +298,7 @@ function render() {
         if (winner) reset.style.display = "block";
     } else {
         buttons.style.display = "block";
-        msgEl.style.display = "none";
+        game.style.display = "none";
         spaces.style.display = "none";
         reset.style.display = "none";
     }

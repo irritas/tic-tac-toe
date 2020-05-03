@@ -107,59 +107,35 @@ function semiRandSpot() {
     // Medium: baseline logic
     if (pc > 1) {
         // Check down diagonal for win
-        if (board[0] + board[4] + board[8] === win) {
-            fillSpot(0, 4);
-            return;
-        }
+        if (checkLine(0, 4, win)) return;
 
         // Check up diagonal for win
-        if (board[2] + board[4] + board[6] === win) {
-            fillSpot(2, 2);
-            return;
-        }
+        if (checkLine(2, 2, win)) return;
 
         // Check horizontal for win
         for (let i = 0; i < 7; i += 3) {
-            if (board[i] + board[i + 1] + board[i + 2] === win) {
-                fillSpot(i, 1);
-                return;
-            }
+            if (checkLine(i, 1, win)) return;
         }
 
         // Check vertical for win
         for (let i = 0; i < 3; i++) {
-            if (board[i] + board[i + 3] + board[i + 6] === win) {
-                fillSpot(i, 3);
-                return;
-            }
+            if (checkLine(i, 3, win)) return;
         }
 
         // Check down diagonal for block
-        if (board[0] + board[4] + board[8] === block) {
-            fillSpot(0, 4);
-            return;
-        }
+        if (checkLine(0, 4, block)) return;
 
         // Check up diagonal for block
-        if (board[2] + board[4] + board[6] === block) {
-            fillSpot(2, 2);
-            return;
-        }
+        if (checkLine(2, 2, block)) return;
 
         // Check horizontal for block
         for (let i = 0; i < 7; i += 3) {
-            if (board[i] + board[i + 1] + board[i + 2] === block) {
-                fillSpot(i, 1);
-                return;
-            }
+            if (checkLine(i, 1, block)) return;
         }
 
         // Check vertical for block
         for (let i = 0; i < 3; i++) {
-            if (board[i] + board[i + 3] + board[i + 6] === block) {
-                fillSpot(i, 3);
-                return;
-            }
+            if (checkLine(i, 3, block)) return;
         }
     }
 
@@ -247,14 +223,17 @@ function semiRandSpot() {
     randSpot();
 }
 
-// Fill last spot in line
-function fillSpot(start, inc) {
-    for (let i = start; i <= start + inc * 2; i += inc) {
-        if (!board[i]) {
-            board[i] = turn;
-            return;
+// Check line for completion
+function checkLine(start, inc, check) {
+    if (board[start] + board[start + inc] + board[start + inc * 2] === check) {
+        for (let i = start; i <= start + inc * 2; i += inc) {
+            if (!board[i]) {
+                board[i] = turn;
+                return true;
+            }
         }
     }
+    return false;
 }
 
 function checkWin() {

@@ -104,8 +104,8 @@ function semiRandSpot() {
     const win = turn * 2;
     const block = turn * -2;
 
-    // Medium: baseline logic
-    if (pc > 1) {
+    // Hard: baseline logic
+    if (pc > 2) {
         // Check down diagonal for win
         if (checkLine(0, 4, win)) return;
 
@@ -139,8 +139,8 @@ function semiRandSpot() {
         }
     }
 
-    // Hard: take center
-    if (pc > 2)
+    // Medium: take center
+    if (pc > 1)
         if (!board[4]) {
             board[4] = turn;
             return;

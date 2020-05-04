@@ -1,4 +1,4 @@
-//Version 1.7.2
+//Version 1.7.3
 
 /*----- CONSTANTS -----*/
 
@@ -137,7 +137,7 @@ function semiRandSpot() {
 
     // Impossible
     if (pc > 3) {
-        // Go for opposite corner
+        // Take opposite corner
         for (let i = 0; i < 9; i += 2) {
             if (!board[i] && board[8 - i]) {
                 board[i] = turn;

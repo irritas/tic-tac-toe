@@ -74,6 +74,7 @@ button:hover {
     font-size: 13vmin;
     line-height: 12vmin;
     border: 0.3vh solid black;
+    cursor: pointer;
 }
 
 #spaces > div:nth-child(1) {

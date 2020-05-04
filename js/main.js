@@ -1,4 +1,4 @@
-//Version 1.6
+//Version 1.6.1
 
 /*----- CONSTANTS -----*/
 
@@ -122,14 +122,14 @@ function randSpot() {
 
 // Computer logic
 function semiRandSpot() {
-    // Medium: baseline logic
+    // Hard: baseline logic
     if (pc > 1) {
         if (checkLine(turn * 2)) return;    // Go for win
         if (checkLine(turn * -2)) return;   // Go for block
     }
 
-    // Hard: take center
-    if (pc > 2)
+    // Medium: take center
+    if (pc > 1)
         if (!board[4]) {
             board[4] = turn;
             return;

@@ -65,20 +65,55 @@ button:hover {
 }
 
 #spaces {
-    grid-template-columns: repeat(3, 13vmin);
-    grid-template-rows: repeat(3, 13vmin);
-    gap: 0.7vh;
-    background-color: black;
+    grid-template-columns: repeat(3, 13.47vmin);
+    grid-template-rows: repeat(3, 13.47vmin);
     display: grid;
 }
 
 #spaces > div {
-    background-color: white;
     font-size: 13vmin;
-    line-height: 13vmin;
+    line-height: 12vmin;
+    border: 0.3vh solid black;
 }
 
+#spaces > div:nth-child(1) {
+    border-top: transparent;
+    border-left: transparent;
+}
+
+#spaces > div:nth-child(2) {
+    border-top: transparent;
+}
+
+#spaces > div:nth-child(3) {
+    border-top: transparent;
+    border-right: transparent;
+}
+
+#spaces > div:nth-child(4) {
+    border-left: transparent;
+}
+
+#spaces > div:nth-child(6) {
+    border-right: transparent;
+}
+
+#spaces > div:nth-child(7) {
+    border-bottom: transparent;
+    border-left: transparent;
+}
+
+#spaces > div:nth-child(8) {
+    border-bottom: transparent;
+}
+
+#spaces > div:nth-child(9) {
+    border-bottom: transparent;
+    border-right: transparent;
+}
+
+
 #reset {
-    width: 22vmin;
+    width: 18vmin;
     margin-top: 1vmin;
 }

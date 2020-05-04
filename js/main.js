@@ -1,10 +1,30 @@
+//Version 1.6
+
 /*----- CONSTANTS -----*/
 
 const playerLookup = {
     "-1": ["O", "red"],
-    "0": [" ", "white"],
+    "0": [" ", "transparent"],
     "1": ["X", "blue"]
 }
+
+const winCombos = [
+    [0, 1, 2],  // Horizontal
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],  // Vertical
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],  // Down diagonal
+    [2, 4, 6]   // Up diagonal
+];
+
+const cornerTrap = [
+    [0, 1, 3],
+    [2, 1, 5],
+    [6, 3, 7],
+    [8, 5, 7]
+];
 
 const firstChance = 2;  // 1/firstChance odds of computer going first
 
@@ -34,6 +54,8 @@ const gameBlock = document.getElementById("game");
 spaces.addEventListener("click", playerClick);
 reset.addEventListener("click", init);
 buttons.addEventListener("click", startClick);
+spaces.addEventListener("mouseover", showHint);
+spaces.addEventListener("mouseout", eraseHint);
 
 
 /*----- FUNCTIONS -----*/
@@ -78,7 +100,6 @@ function playerClick(evt) {
 
     board[id] = turn;
     checkWin();
-
     turn *= -1;
     if (!winner) pcTurn();
     render();
@@ -101,42 +122,10 @@ function randSpot() {
 
 // Computer logic
 function semiRandSpot() {
-    const win = turn * 2;
-    const block = turn * -2;
-
     // Medium: baseline logic
     if (pc > 1) {
-        // Check down diagonal for win
-        if (checkLine(0, 4, win)) return;
-
-        // Check up diagonal for win
-        if (checkLine(2, 2, win)) return;
-
-        // Check horizontal for win
-        for (let i = 0; i < 7; i += 3) {
-            if (checkLine(i, 1, win)) return;
-        }
-
-        // Check vertical for win
-        for (let i = 0; i < 3; i++) {
-            if (checkLine(i, 3, win)) return;
-        }
-
-        // Check down diagonal for block
-        if (checkLine(0, 4, block)) return;
-
-        // Check up diagonal for block
-        if (checkLine(2, 2, block)) return;
-
-        // Check horizontal for block
-        for (let i = 0; i < 7; i += 3) {
-            if (checkLine(i, 1, block)) return;
-        }
-
-        // Check vertical for block
-        for (let i = 0; i < 3; i++) {
-            if (checkLine(i, 3, block)) return;
-        }
+        if (checkLine(turn * 2)) return;    // Go for win
+        if (checkLine(turn * -2)) return;   // Go for block
     }
 
     // Hard: take center
@@ -149,68 +138,28 @@ function semiRandSpot() {
     // Impossible
     if (pc > 3) {
         // Go for opposite corner
-        if (!board[0] && board[8]) {
-            board[0] = turn;
-            return;
-        }
-        if (!board[2] && board[6]) {
-            board[2] = turn;
-            return;
-        }
-        if (!board[6] && board[2]) {
-            board[6] = turn;
-            return;
-        }
-        if (!board[8] && board[0]) {
-            board[8] = turn;
-            return;
+        for (let i = 0; i < 9; i += 2) {
+            if (!board[i] && board[8 - i]) {
+                board[i] = turn;
+                return;
+            }
         }
 
-        //Go for trap
+        // Go for trap
         if (board[4] === turn) {
-            if (board[0] === turn) {
-                if (!board[1]) {
-                    board[1] = turn;
-                    return;
-                }
-                if (!board[3]) {
-                    board[3] = turn;
-                    return;
-                }
-            }
-            if (board[2] === turn) {
-                if (!board[1]) {
-                    board[1] = turn;
-                    return;
-                }
-                if (!board[5]) {
-                    board[5] = turn;
-                    return;
-                }
-            }
-            if (board[6] === turn) {
-                if (!board[4]) {
-                    board[4] = turn;
-                    return;
-                }
-                if (!board[7]) {
-                    board[7] = turn;
-                    return;
-                }
-            }
-            if (board[8] === turn) {
-                if (!board[5]) {
-                    board[5] = turn;
-                    return;
-                }
-                if (!board[7]) {
-                    board[7] = turn;
-                    return;
+            for (let i = 0; i < cornerTrap.length; i++) {
+                if (board[cornerTrap[i][0]] === turn) {
+                    for (let j = 1; j < 3; j++) {
+                        if (!board[cornerTrap[i][j]]) {
+                            board[cornerTrap[i][j]] = turn;
+                            return;
+                        }
+                    }
                 }
             }
         }
 
-        // Impossible: take corner
+        // Take corner
         for (let i = 0; i < 9; i += 2) {
             if (!board[i]) {
                 board[i] = turn;
@@ -224,12 +173,14 @@ function semiRandSpot() {
 }
 
 // Check line for completion
-function checkLine(start, inc, check) {
-    if (board[start] + board[start + inc] + board[start + inc * 2] === check) {
-        for (let i = start; i <= start + inc * 2; i += inc) {
-            if (!board[i]) {
-                board[i] = turn;
-                return true;
+function checkLine(check) {
+    for (let i = 0; i < winCombos.length; i++) {
+        if (board[winCombos[i][0]] + board[winCombos[i][1]] + board[winCombos[i][2]] === check) {
+            for (let j = 0; j < 3; j++) {
+                if (!board[winCombos[i][j]]) {
+                    board[winCombos[i][j]] = turn;
+                    return true;
+                }
             }
         }
     }
@@ -237,22 +188,12 @@ function checkLine(start, inc, check) {
 }
 
 function checkWin() {
-    const win = turn * 3;
-
     // Check for win
-    if (board[0] + board[1] + board[2] === win      // Horizontal
-        || board[3] + board[4] + board[5] === win
-        || board[6] + board[7] + board[8] === win
-
-        || board[0] + board[3] + board[6] === win   // Vertical
-        || board[1] + board[4] + board[7] === win
-        || board[2] + board[5] + board[8] === win
-
-        || board[0] + board[4] + board[8] === win   // Down diagonal
-        || board[2] + board[4] + board[6] === win)  // Up diagonal
-    {
-        winner = turn;
-        return;
+    for (let i = 0; i < winCombos.length; i++) {
+        if (Math.abs(board[winCombos[i][0]] + board[winCombos[i][1]] + board[winCombos[i][2]]) === 3) {
+            winner = turn;
+            return;
+        }
     }
 
     // Check for tie
@@ -290,6 +231,26 @@ function render() {
         spaces.style.display = "none";
         reset.style.display = "none";
     }
+}
+
+function showHint(evt) {
+    const id = spaceEls.indexOf(evt.target);
+
+    // Check if existing
+    if (winner || board[id] !== 0) return;
+
+    spaceEls[id].textContent = playerLookup[turn][0];
+    spaceEls[id].style.color = "lightgrey";
+}
+
+function eraseHint(evt) {
+    const id = spaceEls.indexOf(evt.target);
+
+    // Check if existing
+    if (winner || board[id] !== 0) return;
+
+    spaceEls[id].textContent = playerLookup[0][0];
+    spaceEls[id].style.color = "transparent";
 }
 
 init();

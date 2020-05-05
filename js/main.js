@@ -1,4 +1,4 @@
-// Version 1.7.4
+// Version 1.8
 
 /*----- CONSTANTS -----*/
 
@@ -120,6 +120,13 @@ function randSpot() {
     else board[id] = turn;
 }
 
+// Fill random corner
+function randCorner() {
+    const id = Math.floor(Math.random() * 5) * 2;
+    if (board[id]) randCorner();
+    else board[id] = turn;
+}
+
 // Computer logic
 function semiRandSpot() {
     // Hard: baseline logic
@@ -160,11 +167,9 @@ function semiRandSpot() {
         }
 
         // Take corner
-        for (let i = 0; i < 9; i += 2) {
-            if (!board[i]) {
-                board[i] = turn;
-                return;
-            }
+        if (!board[0] || !board[2] || !board[6] || !board[8]) {
+            randCorner();
+            return;
         }
     }
 

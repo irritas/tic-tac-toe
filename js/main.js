@@ -1,4 +1,4 @@
-// Version 1.8
+// Version 1.8.1
 
 /*----- CONSTANTS -----*/
 
@@ -255,7 +255,7 @@ function eraseHint(evt) {
     if (winner || board[id] !== 0) return;
 
     spaceEls[id].textContent = playerLookup[0][0];
-    spaceEls[id].style.color = "transparent";
+    spaceEls[id].style.color = playerLookup[0][1];
 }
 
 init();

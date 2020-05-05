@@ -1,4 +1,4 @@
-// Version 1.8.1
+// Version 1.8.2
 
 /*----- CONSTANTS -----*/
 
@@ -130,7 +130,7 @@ function randCorner() {
 // Computer logic
 function semiRandSpot() {
     // Hard: baseline logic
-    if (pc > 1) {
+    if (pc > 2) {
         if (checkLine(turn * 2)) return;    // Go for win
         if (checkLine(turn * -2)) return;   // Go for block
     }

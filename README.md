@@ -21,7 +21,7 @@ Technologies Used
 Getting Started
 ---------------
 
-**_Link to game:_** TBD
+**_Link to game:_** https://irritas.github.io/tic-tac-toe/
 
 The goal of the game is to place three marks in a row.
 

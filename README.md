@@ -4,12 +4,6 @@ Tic-Tac-Toe
 Tic-Tac-Toe is a classic two-player game. This app allows for either two players or against a computer with four difficulty levels.
 
 
-Screenshots
------------
-
-TBD
-
-
 Technologies Used
 -----------------
 
